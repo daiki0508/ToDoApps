@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">ToDoApps</string>
+    <string name="hello">Welcome to ToDoApps!</string>
+    <string name="description">Google、もしくはメールアドレスとパスワードを用いてログインできます。</string>
+    <string name="mail_pass_login">メールアドレスとパスワードでログインする。</string>
+    <string name="mail_pass_signin">サインインする</string>
+    <string name="mail_pass_signup">サインアップする</string>
+    <string name="signup">SignUp</string>
 </resources>
