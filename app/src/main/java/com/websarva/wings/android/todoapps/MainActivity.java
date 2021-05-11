@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void execute(View view){
         if (view.getId() == R.id.googleLoginButton){
-
+            googleSign();
         }else if (view.getId() == R.id.mail_pass_login){
             MailAndPassIntent();
         }
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
+        SignIn();
     }
 
     @Override
@@ -81,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG,"firebaseAuthWithGoogle" + Objects.requireNonNull(account).getId());
             }catch (ApiException e){
                 Log.w(TAG,"Google sign in failed",e);
+                Toast.makeText(this,"認証エラー",Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -93,11 +96,21 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
                             Log.d(TAG,"signInWithCredential:Success");
+                            ToDoIntent();
                         }else {
                             Log.w(TAG,"signInWithCredential:failure",task.getException());
+                            Toast.makeText(MainActivity.this,"認証エラー",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
+    }
+
+    private void ToDoIntent(){
+        Intent intent = new Intent(MainActivity.this,ToDoActivity.class);
+        finish();
+        overridePendingTransition(0,0);
+        startActivity(intent);
+        overridePendingTransition(0,0);
     }
 
     private void MailAndPassIntent(){
@@ -116,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if (currentUser != null && currentUser.isEmailVerified()){
-
+            ToDoIntent();
         }
     }
 }

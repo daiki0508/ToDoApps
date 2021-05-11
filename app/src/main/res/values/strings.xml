@@ -6,4 +6,10 @@
     <string name="mail_pass_signin">サインインする</string>
     <string name="mail_pass_signup">サインアップする</string>
     <string name="signup">SignUp</string>
+    <string name="description2">メールアドレスとパスワードを入力して、サインインしてください。\n
+    アカウントが無い場合は、サインアップしてください。</string>
+    <string name="mail">Mail:</string>
+    <string name="sample_mail">hogehoge@example.com</string>
+    <string name="sample_pass">password</string>
+    <string name="back">戻る</string>
 </resources>

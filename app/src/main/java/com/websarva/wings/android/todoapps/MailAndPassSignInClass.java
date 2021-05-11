@@ -7,24 +7,29 @@ import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseUser;
 
-public class MailAndPassRegistClass extends MailAndPassActivity{
+import java.util.Objects;
+
+public class MailAndPassSignInClass extends MailAndPassActivity{
     private final MailAndPassActivity mailAndPassActivity;
     private final static String TAG = "MailAndPassActivity";
 
-    MailAndPassRegistClass(MailAndPassActivity mailAndPassActivity){
+    MailAndPassSignInClass(MailAndPassActivity mailAndPassActivity){
         this.mailAndPassActivity = mailAndPassActivity;
     }
 
-    void Rejist(String mail, String pass){
-        MainActivity.mAuth.createUserWithEmailAndPassword(mail,pass)
+    void SignIn(String mail, String pass){
+        MainActivity.mAuth.signInWithEmailAndPassword(mail,pass)
                 .addOnCompleteListener(mailAndPassActivity, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            Log.d(TAG,"createUserWithEmailAndPassword:success");
+                        FirebaseUser currentUser = MainActivity.mAuth.getCurrentUser();
+                        if (task.isSuccessful() && Objects.requireNonNull(currentUser).isEmailVerified()){
+                            Log.d(TAG,"signInWithEmailAndPassword:success");
+                            mailAndPassActivity.ToDoIntent();
                         }else {
-                            Log.w(TAG,"createUserWithEmailAndPassword:failure");
+                            Log.w(TAG,"signInWithEmailAndPassword:failure");
                         }
                     }
                 });
