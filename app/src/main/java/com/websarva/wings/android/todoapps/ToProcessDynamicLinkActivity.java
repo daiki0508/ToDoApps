@@ -88,9 +88,18 @@ public class ToProcessDynamicLinkActivity extends AppCompatActivity {
                 });
     }
 
+    @Override
     protected void onStart(){
         super.onStart();
 
         DynamicLink();
+    }
+
+    @Override
+    protected void onDestroy(){
+        mail = "";
+        pass = "";
+
+        super.onDestroy();
     }
 }

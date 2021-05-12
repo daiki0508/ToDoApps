@@ -13,4 +13,9 @@
     <string name="sample_pass">password</string>
     <string name="back">戻る</string>
     <string name="signout">サインアウト</string>
+    <string name="description3">タイトルと内容を入力して追加するボタンをタップしてください。</string>
+    <string name="title">タイトル</string>
+    <string name="note">メモ</string>
+    <string name="add">追加する</string>
+    <string name="clear">クリア</string>
 </resources>
