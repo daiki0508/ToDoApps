@@ -37,8 +37,8 @@ public class MailAndPassRegistClass extends MailAndPassActivity{
     }
 
     void Rejist(String mail, String pass){
-        MainActivity.mAuth.createUserWithEmailAndPassword(mail,pass)
-                .addOnCompleteListener(mailAndPassActivity, new OnCompleteListener<AuthResult>() {
+        MailAndPassActivity.mAuth.createUserWithEmailAndPassword(mail,pass)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
@@ -53,7 +53,7 @@ public class MailAndPassRegistClass extends MailAndPassActivity{
     }
 
     private void sendMail(){
-        FirebaseUser currentUser = MainActivity.mAuth.getCurrentUser();
+        FirebaseUser currentUser = MailAndPassActivity.mAuth.getCurrentUser();
         ActionCodeSettings actionCodeSettings = ActionCodeSettings.newBuilder()
                 .setUrl(getUrl())
                 .setAndroidPackageName("com.websarva.wings.android.todoapps",false,null)

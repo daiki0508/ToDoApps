@@ -21,11 +21,11 @@ public class MailAndPassSignInClass extends MailAndPassActivity{
     }
 
     void SignIn(String mail, String pass){
-        MainActivity.mAuth.signInWithEmailAndPassword(mail,pass)
-                .addOnCompleteListener(mailAndPassActivity, new OnCompleteListener<AuthResult>() {
+        MailAndPassActivity.mAuth.signInWithEmailAndPassword(mail,pass)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        FirebaseUser currentUser = MainActivity.mAuth.getCurrentUser();
+                        FirebaseUser currentUser = MailAndPassActivity.mAuth.getCurrentUser();
                         if (task.isSuccessful() && Objects.requireNonNull(currentUser).isEmailVerified()){
                             Log.d(TAG,"signInWithEmailAndPassword:success");
                             mailAndPassActivity.ToDoIntent();

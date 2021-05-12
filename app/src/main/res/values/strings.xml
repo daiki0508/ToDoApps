@@ -12,4 +12,5 @@
     <string name="sample_mail">hogehoge@example.com</string>
     <string name="sample_pass">password</string>
     <string name="back">戻る</string>
+    <string name="signout">サインアウト</string>
 </resources>

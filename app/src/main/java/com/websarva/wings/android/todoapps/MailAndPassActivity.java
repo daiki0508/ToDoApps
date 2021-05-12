@@ -12,9 +12,11 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MailAndPassActivity extends AppCompatActivity {
+    protected static FirebaseAuth mAuth;
     private boolean flag;
     private Button execute_b;
     private Button back_b;
@@ -64,9 +66,9 @@ public class MailAndPassActivity extends AppCompatActivity {
 
         if (mail_len > 0 && mail_len <= 50 && pass_len > 8 && pass_len <= 25){
             if (flag){
-                sic.SignIn(mail_str,pass_str);
-            }else {
                 rc.Rejist(mail_str,pass_str);
+            }else {
+                sic.SignIn(mail_str,pass_str);
             }
         }else{
             if (mail_len == 0 && pass_len == 0){
@@ -84,7 +86,12 @@ public class MailAndPassActivity extends AppCompatActivity {
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
             flag = isChecked;
-            execute_b.setText(getString(R.string.mail_pass_signup));
+
+            if (flag){
+                execute_b.setText(getString(R.string.mail_pass_signup));
+            }else {
+                execute_b.setText(getString(R.string.mail_pass_signin));
+            }
         }
     }
 
@@ -108,7 +115,9 @@ public class MailAndPassActivity extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
 
-        FirebaseUser currentUser = MainActivity.mAuth.getCurrentUser();
+        mAuth = FirebaseAuth.getInstance();
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if (currentUser != null && currentUser.isEmailVerified()){
             ToDoIntent();

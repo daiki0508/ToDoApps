@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
@@ -38,6 +39,7 @@ public class ToProcessDynamicLinkActivity extends AppCompatActivity {
     protected static String pass;
     private byte[] en2 = null;
     private String result = "";
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +56,7 @@ public class ToProcessDynamicLinkActivity extends AppCompatActivity {
                         Uri deepLink = null;
                         if (pendingDynamicLinkData != null){
                             deepLink = pendingDynamicLinkData.getLink();
-                            if (getUrl().equals(deepLink)){
-                                ToDoIntent();
-                            }
+                            ToDoIntent();
                         }
                     }
                 }).addOnFailureListener(this, new OnFailureListener() {
@@ -68,11 +68,13 @@ public class ToProcessDynamicLinkActivity extends AppCompatActivity {
     }
 
     private void ToDoIntent(){
-        MainActivity.mAuth.signInWithEmailAndPassword(mail,pass)
+        mAuth = FirebaseAuth.getInstance();
+
+        mAuth.signInWithEmailAndPassword(mail,pass)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        FirebaseUser currentUser = MainActivity.mAuth.getCurrentUser();
+                        FirebaseUser currentUser = mAuth.getCurrentUser();
                         if (task.isSuccessful() && Objects.requireNonNull(currentUser).isEmailVerified()){
                             Intent intent = new Intent(ToProcessDynamicLinkActivity.this,ToDoActivity.class);
                             finish();
@@ -84,45 +86,6 @@ public class ToProcessDynamicLinkActivity extends AppCompatActivity {
                         }
                     }
                 });
-    }
-
-    private String getUrl(){
-        byte[] bytes = new byte[256 / 8];
-        byte[] keys = Base64.decode(getAESData(1),Base64.DEFAULT);
-
-        for (int i = 0; i < new String(keys).length(); i++){
-            if (i >= bytes.length){
-                break;
-            }
-            bytes[i] = keys[i];
-        }
-        SecretKeySpec key = new SecretKeySpec(bytes,"AES");
-
-        byte[] iv_decode = Base64.decode(getAESData(2),Base64.DEFAULT);
-
-        try {
-            IvParameterSpec ips = new IvParameterSpec(iv_decode);
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            cipher.init(Cipher.DECRYPT_MODE,key,ips);
-            en2 = cipher.doFinal(Base64.decode(getAESData(0).getBytes(StandardCharsets.UTF_8),Base64.DEFAULT));
-
-            result = new String(en2,StandardCharsets.US_ASCII);
-        }catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidAlgorithmParameterException | InvalidKeyException | BadPaddingException | IllegalBlockSizeException e){
-            Log.e("error_decode",e.getMessage());
-        }
-
-        Arrays.fill(bytes,(byte) 0);
-        Arrays.fill(keys,(byte) 0);
-        Arrays.fill(iv_decode,(byte) 0);
-        Arrays.fill(en2,(byte) 0);
-
-        return result;
-    }
-
-    private native String getAESData(int flag);
-
-    static {
-        System.loadLibrary("main");
     }
 
     protected void onStart(){
