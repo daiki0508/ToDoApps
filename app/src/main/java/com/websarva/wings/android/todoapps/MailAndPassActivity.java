@@ -48,9 +48,12 @@ public class MailAndPassActivity extends AppCompatActivity {
         if (view.getId() == R.id.execute_b){
             String mail_str = mail_e.getText().toString();
             String pass_str = pass_e.getText().toString();
+            ToProcessDynamicLinkActivity.mail = mail_str;
+            ToProcessDynamicLinkActivity.pass = pass_str;
+
             checkWords(mail_str,pass_str,flag);
         }else if (view.getId() == R.id.back_b){
-            
+            backIntent();
         }
     }
 
@@ -63,7 +66,7 @@ public class MailAndPassActivity extends AppCompatActivity {
             if (flag){
                 sic.SignIn(mail_str,pass_str);
             }else {
-
+                rc.Rejist(mail_str,pass_str);
             }
         }else{
             if (mail_len == 0 && pass_len == 0){
@@ -87,6 +90,14 @@ public class MailAndPassActivity extends AppCompatActivity {
 
     protected void ToDoIntent(){
         Intent intent = new Intent(MailAndPassActivity.this,ToDoActivity.class);
+        finish();
+        overridePendingTransition(0,0);
+        startActivity(intent);
+        overridePendingTransition(0,0);
+    }
+
+    private void backIntent(){
+        Intent intent = new Intent(MailAndPassActivity.this,MainActivity.class);
         finish();
         overridePendingTransition(0,0);
         startActivity(intent);

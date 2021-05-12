@@ -1,6 +1,7 @@
 package com.websarva.wings.android.todoapps;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -30,6 +31,7 @@ public class MailAndPassSignInClass extends MailAndPassActivity{
                             mailAndPassActivity.ToDoIntent();
                         }else {
                             Log.w(TAG,"signInWithEmailAndPassword:failure");
+                            Toast.makeText(mailAndPassActivity,"認証エラー",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
