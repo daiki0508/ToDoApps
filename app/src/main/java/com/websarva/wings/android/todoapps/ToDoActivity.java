@@ -14,8 +14,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import static com.websarva.wings.android.todoapps.MainActivity.mAuth;
+import static com.websarva.wings.android.todoapps.MainActivity.mGoogleSignInClient;
+
 public class ToDoActivity extends AppCompatActivity {
-    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,15 +30,13 @@ public class ToDoActivity extends AppCompatActivity {
 
     private void addTodo(View view){
         Intent intent = new Intent(ToDoActivity.this,AddToDoActivity.class);
-        finish();
-        overridePendingTransition(0,0);
         startActivity(intent);
         overridePendingTransition(0,0);
     }
 
     private void signOutIntent(){
         FirebaseAuth.getInstance().signOut();
-        MainActivity.mGoogleSignInClient.signOut();
+        mGoogleSignInClient.signOut();
 
         Intent intent = new Intent(ToDoActivity.this,MainActivity.class);
         finish();
@@ -68,7 +68,6 @@ public class ToDoActivity extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
 
-        mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if (currentUser != null && currentUser.isEmailVerified()){

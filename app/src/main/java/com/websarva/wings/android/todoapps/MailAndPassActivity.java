@@ -15,8 +15,9 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import static com.websarva.wings.android.todoapps.MainActivity.mAuth;
+
 public class MailAndPassActivity extends AppCompatActivity {
-    protected static FirebaseAuth mAuth;
     private boolean flag;
     private Button execute_b;
     private Button back_b;
@@ -114,8 +115,6 @@ public class MailAndPassActivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
-
-        mAuth = FirebaseAuth.getInstance();
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
 

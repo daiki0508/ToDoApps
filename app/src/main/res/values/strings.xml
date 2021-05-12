@@ -18,4 +18,6 @@
     <string name="note">メモ</string>
     <string name="add">追加する</string>
     <string name="clear">クリア</string>
+    <string name="title_hint">こんにちは</string>
+    <string name="note_hint">これはテストです。</string>
 </resources>

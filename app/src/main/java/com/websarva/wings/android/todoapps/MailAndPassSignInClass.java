@@ -12,6 +12,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
 
+import static com.websarva.wings.android.todoapps.MainActivity.mAuth;
+
 public class MailAndPassSignInClass extends MailAndPassActivity{
     private final MailAndPassActivity mailAndPassActivity;
     private final static String TAG = "MailAndPassActivity";
@@ -21,11 +23,11 @@ public class MailAndPassSignInClass extends MailAndPassActivity{
     }
 
     void SignIn(String mail, String pass){
-        MailAndPassActivity.mAuth.signInWithEmailAndPassword(mail,pass)
+        mAuth.signInWithEmailAndPassword(mail,pass)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        FirebaseUser currentUser = MailAndPassActivity.mAuth.getCurrentUser();
+                        FirebaseUser currentUser = mAuth.getCurrentUser();
                         if (task.isSuccessful() && Objects.requireNonNull(currentUser).isEmailVerified()){
                             Log.d(TAG,"signInWithEmailAndPassword:success");
                             mailAndPassActivity.ToDoIntent();

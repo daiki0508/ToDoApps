@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void execute(View view){
         if (view.getId() == R.id.googleLoginButton){
-            googleSign();
+            SignIn();
         }else if (view.getId() == R.id.mail_pass_login){
             MailAndPassIntent();
         }
@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
-        SignIn();
     }
 
     @Override
@@ -127,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
+        googleSign();
 
         if (currentUser != null && currentUser.isEmailVerified()){
             ToDoIntent();

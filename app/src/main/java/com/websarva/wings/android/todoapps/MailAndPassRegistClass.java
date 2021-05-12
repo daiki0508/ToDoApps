@@ -26,6 +26,8 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import static com.websarva.wings.android.todoapps.MainActivity.mAuth;
+
 public class MailAndPassRegistClass extends MailAndPassActivity{
     private final MailAndPassActivity mailAndPassActivity;
     private final static String TAG = "MailAndPassActivity";
@@ -37,7 +39,7 @@ public class MailAndPassRegistClass extends MailAndPassActivity{
     }
 
     void Rejist(String mail, String pass){
-        MailAndPassActivity.mAuth.createUserWithEmailAndPassword(mail,pass)
+        mAuth.createUserWithEmailAndPassword(mail,pass)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -53,7 +55,7 @@ public class MailAndPassRegistClass extends MailAndPassActivity{
     }
 
     private void sendMail(){
-        FirebaseUser currentUser = MailAndPassActivity.mAuth.getCurrentUser();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
         ActionCodeSettings actionCodeSettings = ActionCodeSettings.newBuilder()
                 .setUrl(getUrl())
                 .setAndroidPackageName("com.websarva.wings.android.todoapps",false,null)

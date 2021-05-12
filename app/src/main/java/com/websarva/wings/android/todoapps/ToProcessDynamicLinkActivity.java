@@ -37,8 +37,6 @@ import javax.crypto.spec.SecretKeySpec;
 public class ToProcessDynamicLinkActivity extends AppCompatActivity {
     protected static String mail;
     protected static String pass;
-    private byte[] en2 = null;
-    private String result = "";
     private FirebaseAuth mAuth;
 
     @Override
@@ -68,7 +66,6 @@ public class ToProcessDynamicLinkActivity extends AppCompatActivity {
     }
 
     private void ToDoIntent(){
-        mAuth = FirebaseAuth.getInstance();
 
         mAuth.signInWithEmailAndPassword(mail,pass)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
