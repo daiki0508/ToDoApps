@@ -53,6 +53,7 @@ public class ToProcessDynamicLinkActivity extends AppCompatActivity {
                         Uri deepLink = null;
                         if (pendingDynamicLinkData != null){
                             deepLink = pendingDynamicLinkData.getLink();
+                           // Log.d("test", String.valueOf(deepLink));
                             ToDoIntent();
                         }
                     }

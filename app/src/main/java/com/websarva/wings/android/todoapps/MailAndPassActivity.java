@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -74,7 +77,7 @@ public class MailAndPassActivity extends AppCompatActivity {
         }else{
             if (mail_len == 0 && pass_len == 0){
                 toast_str = "mail,もしくはpassが未入力です。";
-            }else if (pass_len > 25){
+            }else if (pass_len > 25 || pass_len <= 8){
                 toast_str = "passの入力可能文字数は8文字以上25文字以下です。";
             }else if (mail_len > 50){
                 toast_str = "mailの入力可能文字数は50文字以内です。";
@@ -110,6 +113,29 @@ public class MailAndPassActivity extends AppCompatActivity {
         overridePendingTransition(0,0);
         startActivity(intent);
         overridePendingTransition(0,0);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_options_reset_list,menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int itemID = item.getItemId();
+
+        if (itemID == R.id.reset){
+            Intent intent = new Intent(MailAndPassActivity.this,RePasswordActivity.class);
+            finish();
+            overridePendingTransition(0,0);
+            startActivity(intent);
+            overridePendingTransition(0,0);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

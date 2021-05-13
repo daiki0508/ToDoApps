@@ -27,4 +27,8 @@
     <string name="unsubscribe">よければ退会する理由を教えて下さい。\nこれからの開発の参考にさせて頂きます。</string>
     <string name="Reason">退会理由</string>
     <string name="send">退会する</string>
+    <string name="description4">パスワードの再設定を行います。\n
+    アカウントのメールアドレスを入力してください。</string>
+    <string name="repassword">パスワード再設定メールを送信する</string>
+    <string name="reset">パスワードを忘れた</string>
 </resources>
