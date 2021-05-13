@@ -22,4 +22,6 @@
     <string name="note_hint">これはテストです。</string>
     <string name="todolist">ToDoLists</string>
     <string name="delete">削除する</string>
+    <string name="date_d">更新日時：</string>
+    <string name="update_d">更新する</string>
 </resources>
