@@ -20,4 +20,5 @@
     <string name="clear">クリア</string>
     <string name="title_hint">こんにちは</string>
     <string name="note_hint">これはテストです。</string>
+    <string name="todolist">ToDoLists</string>
 </resources>

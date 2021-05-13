@@ -1,6 +1,7 @@
 package com.websarva.wings.android.todoapps;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -13,15 +14,14 @@ import java.util.Map;
 import java.util.Objects;
 
 import static com.websarva.wings.android.todoapps.MainActivity.mAuth;
+import static com.websarva.wings.android.todoapps.ToDoActivity.db;
 
 public class SaveDataClass extends AddToDoActivity{
     private final AddToDoActivity addToDoActivity;
-    private FirebaseFirestore db;
     private final static String TAG = "FirebaseFirestore";
 
     SaveDataClass(AddToDoActivity addToDoActivity){
         this.addToDoActivity = addToDoActivity;
-        this.db = FirebaseFirestore.getInstance();
     }
 
     void SaveData(Map<String,String> todo_lists){
@@ -38,6 +38,7 @@ public class SaveDataClass extends AddToDoActivity{
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG,"saveData:failure");
+                        Toast.makeText(addToDoActivity,"送信に失敗しました",Toast.LENGTH_SHORT).show();
                     }
                 });
     }

@@ -2,6 +2,7 @@ package com.websarva.wings.android.todoapps;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -46,6 +47,8 @@ public class AddToDoActivity extends AppCompatActivity {
         }else if (view.getId() == R.id.clear_b){
             title_e.setText("");
             note_e.setText("");
+        }else if (view.getId() == R.id.back_b){
+            backIntent();
         }
     }
 
@@ -59,6 +62,7 @@ public class AddToDoActivity extends AppCompatActivity {
             todo_list.put("title",title);
             todo_list.put("note",note);
             sdc.SaveData(todo_list);
+            backIntent();
         }else {
             if (title_len == 0){
                 toast_str = "タイトルが入力されていません";
@@ -71,6 +75,14 @@ public class AddToDoActivity extends AppCompatActivity {
             }
             Toast.makeText(AddToDoActivity.this,toast_str,Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void backIntent(){
+        Intent intent = new Intent(AddToDoActivity.this,ToDoActivity.class);
+        finish();
+        overridePendingTransition(0,0);
+        startActivity(intent);
+        overridePendingTransition(0,0);
     }
 
     @Override
