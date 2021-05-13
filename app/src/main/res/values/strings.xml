@@ -24,4 +24,7 @@
     <string name="delete">削除する</string>
     <string name="date_d">更新日時：</string>
     <string name="update_d">更新する</string>
+    <string name="unsubscribe">よければ退会する理由を教えて下さい。\nこれからの開発の参考にさせて頂きます。</string>
+    <string name="Reason">退会理由</string>
+    <string name="send">退会する</string>
 </resources>

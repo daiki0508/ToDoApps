@@ -106,7 +106,7 @@ public class DetailContentActivity extends AppCompatActivity {
     }
 
     private void signOut(){
-        mAuth.signOut();
+        FirebaseAuth.getInstance().signOut();
         mGoogleSignInClient.signOut();
         backIntent();
     }
@@ -142,5 +142,13 @@ public class DetailContentActivity extends AppCompatActivity {
             signOut();
             Toast.makeText(DetailContentActivity.this,"不正な操作です",Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    protected void onDestroy(){
+        title_str = "";
+        note_str = "";
+
+        super.onDestroy();
     }
 }

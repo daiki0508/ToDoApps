@@ -3,9 +3,12 @@ package com.websarva.wings.android.todoapps;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.security.keystore.KeyProperties;
+import android.util.Base64;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -23,12 +26,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
+import javax.crypto.spec.SecretKeySpec;
 
 import static com.websarva.wings.android.todoapps.MainActivity.mAuth;
 import static com.websarva.wings.android.todoapps.MainActivity.mGoogleSignInClient;
@@ -37,8 +42,8 @@ public class ToDoActivity extends AppCompatActivity {
     protected static FirebaseFirestore db;
     private GetContentsClass gcc;
     private List<Map<String,String>> ContentsList;
-    protected static String title_str;
-    protected static String note_str;
+    protected static String title_str = "";
+    protected static String note_str = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +85,6 @@ public class ToDoActivity extends AppCompatActivity {
     private void delete(Map<String,String> content){
         title_str = content.get("title");
         note_str = content.get("note");
-
         ToDoDiaLogFragment tdf = new ToDoDiaLogFragment(this);
         tdf.show(getSupportFragmentManager(),"ToDoDiaLogFragment");
     }
@@ -96,6 +100,14 @@ public class ToDoActivity extends AppCompatActivity {
 
     private void addTodo(View view){
         Intent intent = new Intent(ToDoActivity.this,AddToDoActivity.class);
+        finish();
+        overridePendingTransition(0,0);
+        startActivity(intent);
+        overridePendingTransition(0,0);
+    }
+
+    private void UnsubscribeIntent(){
+        Intent intent = new Intent(ToDoActivity.this,UnsubscribeActivity.class);
         finish();
         overridePendingTransition(0,0);
         startActivity(intent);
@@ -146,6 +158,8 @@ public class ToDoActivity extends AppCompatActivity {
 
         if (itemID == R.id.signout){
             signOutIntent();
+        }else if (itemID == R.id.unsubscribe){
+            UnsubscribeIntent();
         }
 
         return super.onOptionsItemSelected(item);
@@ -178,13 +192,21 @@ public class ToDoActivity extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
 
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (currentUser != null && currentUser.isEmailVerified()){
 
         }else {
             Toast.makeText(ToDoActivity.this,"不正な操作です",Toast.LENGTH_SHORT).show();
-            signOutIntent();
+            finish();
         }
+    }
+
+    @Override
+    protected void onDestroy(){
+        title_str = "";
+        note_str = "";
+
+        super.onDestroy();
     }
 }

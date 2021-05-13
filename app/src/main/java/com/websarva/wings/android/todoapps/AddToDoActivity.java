@@ -3,10 +3,9 @@ package com.websarva.wings.android.todoapps;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -15,9 +14,8 @@ import android.widget.Toast;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -66,7 +64,6 @@ public class AddToDoActivity extends AppCompatActivity {
 
     protected void onFragmentResult(){
         sdc.SaveData(todo_list);
-        backIntent();
     }
 
     private void checkWords(String title, String note){
@@ -128,6 +125,15 @@ public class AddToDoActivity extends AppCompatActivity {
 
         }else {
             Toast.makeText(AddToDoActivity.this,"不正な操作です",Toast.LENGTH_SHORT).show();
+            finish();
         }
+    }
+
+    @Override
+    protected void onDestroy(){
+        title_str = "";
+        note_str = "";
+
+        super.onDestroy();
     }
 }

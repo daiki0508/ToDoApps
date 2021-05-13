@@ -5,4 +5,9 @@
         android:title="@string/signout"
         android:id="@+id/signout"
         app:showAsAction="never" />
+
+    <item
+        android:title="@string/send"
+        android:id="@+id/unsubscribe"
+        app:showAsAction="never" />
 </menu>

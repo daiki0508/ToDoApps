@@ -1,6 +1,5 @@
 package com.websarva.wings.android.todoapps;
 
-import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -8,7 +7,7 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.SetOptions;
 
 import java.util.Map;
@@ -31,7 +30,7 @@ public class SaveDataClass{
     }
 
     void SaveData(Map<String,Object> todo_lists){
-        db.collection("users").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
+        db.collection("users").document(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
                 .collection("contents").document(Objects.requireNonNull(Objects.requireNonNull(todo_lists.get("title")).toString()))
                 .set(todo_lists, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

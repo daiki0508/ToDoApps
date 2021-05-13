@@ -116,6 +116,7 @@ public class MailAndPassActivity extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
 
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if (currentUser != null && currentUser.isEmailVerified()){

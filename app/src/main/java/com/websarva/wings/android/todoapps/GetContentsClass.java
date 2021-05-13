@@ -1,6 +1,8 @@
 package com.websarva.wings.android.todoapps;
 
 import android.content.Context;
+import android.security.keystore.KeyProperties;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -11,13 +13,31 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.Key;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.IvParameterSpec;
 
 import static com.websarva.wings.android.todoapps.MainActivity.mAuth;
 
@@ -30,7 +50,7 @@ public class GetContentsClass extends ToDoActivity{
     }
 
     void getContents(List<Map<String,String>>ContentsList, ListView contentListView){
-        db.collection("users").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
+        db.collection("users").document(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
                 .collection("contents")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -50,7 +70,7 @@ public class GetContentsClass extends ToDoActivity{
     }
 
     void deleteContent(String title){
-        db.collection("users").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
+        db.collection("users").document(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
                 .collection("contents").document(title)
                 .delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

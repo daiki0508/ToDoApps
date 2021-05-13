@@ -9,8 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ToDoApps">
-        <activity android:name=".DetailContentActivity"></activity>
-        <activity android:name=".AddToDoActivity" />
+        <activity android:name=".RePasswordActivity"></activity>
+        <activity
+            android:name=".UnsubscribeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DetailContentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddToDoActivity"
+            android:exported="false" />
         <activity android:name=".ToProcessDynamicLinkActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

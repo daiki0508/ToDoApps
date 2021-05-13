@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
@@ -23,11 +24,11 @@ public class MailAndPassSignInClass extends MailAndPassActivity{
     }
 
     void SignIn(String mail, String pass){
-        mAuth.signInWithEmailAndPassword(mail,pass)
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(mail,pass)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        FirebaseUser currentUser = mAuth.getCurrentUser();
+                        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                         if (task.isSuccessful() && Objects.requireNonNull(currentUser).isEmailVerified()){
                             Log.d(TAG,"signInWithEmailAndPassword:success");
                             mailAndPassActivity.ToDoIntent();

@@ -37,7 +37,6 @@ import javax.crypto.spec.SecretKeySpec;
 public class ToProcessDynamicLinkActivity extends AppCompatActivity {
     protected static String mail;
     protected static String pass;
-    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +66,11 @@ public class ToProcessDynamicLinkActivity extends AppCompatActivity {
 
     private void ToDoIntent(){
 
-        mAuth.signInWithEmailAndPassword(mail,pass)
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(mail,pass)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        FirebaseUser currentUser = mAuth.getCurrentUser();
+                        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                         if (task.isSuccessful() && Objects.requireNonNull(currentUser).isEmailVerified()){
                             Intent intent = new Intent(ToProcessDynamicLinkActivity.this,ToDoActivity.class);
                             finish();
