@@ -34,6 +34,8 @@ public class ToDoActivity extends AppCompatActivity {
     protected static FirebaseFirestore db;
     private GetContentsClass gcc;
     private List<Map<String,String>> ContentsList;
+    protected static String title_str;
+    protected static String note_str;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +64,15 @@ public class ToDoActivity extends AppCompatActivity {
     }*/
 
     private void delete(Map<String,String> content){
-        gcc.deleteContent(content.get("title"));
+        title_str = content.get("title");
+        note_str = content.get("note");
+
+        ToDoDiaLogFragment tdf = new ToDoDiaLogFragment(this);
+        tdf.show(getSupportFragmentManager(),"ToDoDiaLogFragment");
+    }
+
+    protected void onFragmentResult(){
+        gcc.deleteContent(title_str);
         Intent intent = new Intent(getIntent());
         finish();
         overridePendingTransition(0,0);

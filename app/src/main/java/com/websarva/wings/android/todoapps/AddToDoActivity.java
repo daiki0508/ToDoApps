@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.HashMap;
@@ -24,6 +23,9 @@ public class AddToDoActivity extends AppCompatActivity {
     private EditText title_e;
     private EditText note_e;
     private SaveDataClass sdc;
+    protected static String title_str;
+    protected static String note_str;
+    protected static Map<String, String> todo_list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +46,8 @@ public class AddToDoActivity extends AppCompatActivity {
     }
 
     private void execute(View view){
-        String title_str = title_e.getText().toString();
-        String note_str = note_e.getText().toString();
+        title_str = title_e.getText().toString();
+        note_str = note_e.getText().toString();
 
         if (view.getId() == R.id.add_b){
             checkWords(title_str,note_str);
@@ -55,17 +57,23 @@ public class AddToDoActivity extends AppCompatActivity {
         }
     }
 
+    protected void onFragmentResult(){
+        sdc.SaveData(todo_list);
+        backIntent();
+    }
+
     private void checkWords(String title, String note){
         int title_len = title.length();
         int note_len = note.length();
         String toast_str = "";
 
         if (title_len > 0 && note_len > 0 && title_len <= 30 && note_len <= 100){
-            Map<String, String> todo_list = new HashMap<>();
+            todo_list = new HashMap<>();
             todo_list.put("title",title);
             todo_list.put("note",note);
-            sdc.SaveData(todo_list);
-            backIntent();
+
+            AddDialogFragment adf = new AddDialogFragment(this);
+            adf.show(getSupportFragmentManager(),"AddDialogFragment");
         }else {
             if (title_len == 0){
                 toast_str = "タイトルが入力されていません";
@@ -80,7 +88,7 @@ public class AddToDoActivity extends AppCompatActivity {
         }
     }
 
-    private void backIntent(){
+    protected void backIntent(){
         Intent intent = new Intent(AddToDoActivity.this,ToDoActivity.class);
         finish();
         overridePendingTransition(0,0);

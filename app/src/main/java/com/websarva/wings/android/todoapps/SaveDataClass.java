@@ -1,5 +1,6 @@
 package com.websarva.wings.android.todoapps;
 
+import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -32,13 +33,15 @@ public class SaveDataClass extends AddToDoActivity{
                     @Override
                     public void onSuccess(Void unused) {
                         Log.d(TAG,"saveData:success");
+                        Toast.makeText(addToDoActivity,"登録しました",Toast.LENGTH_SHORT).show();
+                        addToDoActivity.backIntent();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG,"saveData:failure");
-                        Toast.makeText(addToDoActivity,"送信に失敗しました",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(addToDoActivity,"登録に失敗しました",Toast.LENGTH_SHORT).show();
                     }
                 });
     }
