@@ -1,9 +1,11 @@
 package com.websarva.wings.android.todoapps;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +16,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.websarva.wings.android.todoapps.MainActivity.mAuth;
 
@@ -31,6 +34,8 @@ public class AddToDoActivity extends AppCompatActivity {
         add_b.setOnClickListener(this::execute);
         Button clear_b = findViewById(R.id.clear_b);
         clear_b.setOnClickListener(this::execute);
+        ActionBar actionBar = getSupportActionBar();
+        Objects.requireNonNull(actionBar).setDisplayHomeAsUpEnabled(true);
 
         title_e = findViewById(R.id.title_edit);
         note_e = findViewById(R.id.note_edit);
@@ -47,8 +52,6 @@ public class AddToDoActivity extends AppCompatActivity {
         }else if (view.getId() == R.id.clear_b){
             title_e.setText("");
             note_e.setText("");
-        }else if (view.getId() == R.id.back_b){
-            backIntent();
         }
     }
 
@@ -83,6 +86,17 @@ public class AddToDoActivity extends AppCompatActivity {
         overridePendingTransition(0,0);
         startActivity(intent);
         overridePendingTransition(0,0);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int itemID = item.getItemId();
+
+        if (itemID == android.R.id.home){
+            backIntent();
+        }
+
+        return  super.onOptionsItemSelected(item);
     }
 
     @Override

@@ -3,10 +3,13 @@ package com.websarva.wings.android.todoapps;
 import android.content.Context;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -42,6 +45,26 @@ public class GetContentsClass extends ToDoActivity{
                         }else {
                             Log.w(TAG,"getContents:failure",task.getException());
                         }
+                    }
+                });
+    }
+
+    void deleteContent(String title){
+        db.collection("users").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
+                .collection("contents").document(title)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG,"deleteContent:success");
+                        Toast.makeText(context,"削除しました",Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG,"deleteContent:failure",e);
+                        Toast.makeText(context,"エラーが発生しました",Toast.LENGTH_SHORT).show();
                     }
                 });
     }

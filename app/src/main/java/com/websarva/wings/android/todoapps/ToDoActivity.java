@@ -6,10 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
@@ -31,6 +33,7 @@ import static com.websarva.wings.android.todoapps.MainActivity.mGoogleSignInClie
 public class ToDoActivity extends AppCompatActivity {
     protected static FirebaseFirestore db;
     private GetContentsClass gcc;
+    private List<Map<String,String>> ContentsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +43,31 @@ public class ToDoActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         ListView contentListView = findViewById(R.id.todoList);
-        List<Map<String,String>> ContentsList = new ArrayList<>();
+        registerForContextMenu(contentListView);
+        //contentListView.setOnItemClickListener(new ListItemClickListener());
+        ContentsList = new ArrayList<>();
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(this::addTodo);
 
         gcc = new GetContentsClass(this);
         gcc.getContents(ContentsList,contentListView);
+    }
+
+    /*private class ListItemClickListener implements AdapterView.OnItemClickListener{
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+            Map<String, String> item = (Map<String, String>) parent.getItemAtPosition(position);
+            delete(item);
+        }
+    }*/
+
+    private void delete(Map<String,String> content){
+        gcc.deleteContent(content.get("title"));
+        Intent intent = new Intent(getIntent());
+        finish();
+        overridePendingTransition(0,0);
+        startActivity(intent);
+        overridePendingTransition(0,0);
     }
 
     private void addTodo(View view){
@@ -102,6 +124,29 @@ public class ToDoActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo){
+        super.onCreateContextMenu(menu, view, menuInfo);
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_context_menu_lists,menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item){
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int listPosition = info.position;
+        Map<String,String> content = ContentsList.get(listPosition);
+
+        int itemID = item.getItemId();
+
+        if (itemID == R.id.delete){
+            delete(content);
+        }
+
+        return super.onContextItemSelected(item);
     }
 
     @Override
