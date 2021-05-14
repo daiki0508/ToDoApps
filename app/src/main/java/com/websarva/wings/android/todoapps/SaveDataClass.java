@@ -30,7 +30,7 @@ public class SaveDataClass{
     }
 
     void SaveData(Map<String,Object> todo_lists){
-        db.collection("users").document(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+        db.collection(/*"users"*/"admin").document(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
                 .collection("contents").document(Objects.requireNonNull(Objects.requireNonNull(todo_lists.get("title")).toString()))
                 .set(todo_lists, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -51,7 +51,7 @@ public class SaveDataClass{
     }
 
     void update(Map<String,Object> todo_lists){
-        db.collection("users").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
+        db.collection(/*"users"*/"admin").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
                 .collection("contents").document(Objects.requireNonNull(Objects.requireNonNull(todo_lists.get("title")).toString()))
                 .set(todo_lists)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

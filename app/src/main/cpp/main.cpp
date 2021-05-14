@@ -1,6 +1,9 @@
 #include <jni.h>
 #include <string>
 #include <cstring>
+#include <iostream>
+#include <random>
+using namespace std;
 //
 // Created by oocha on 2021/05/12.
 //
@@ -28,4 +31,23 @@ Java_com_websarva_wings_android_todoapps_MailAndPassRegistClass_getAESData(JNIEn
             break;
     }
     return env->NewStringUTF(ret_data.c_str());
+}
+
+std::string uid_g;
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_websarva_wings_android_todoapps_ToDoActivity_saveUID(JNIEnv *env, jobject thiz,
+                                                              jstring uid) {
+    // TODO: implement saveUID()
+    const char *uid_c = env->GetStringUTFChars(uid,0);
+    uid_g = uid_c;
+}
+
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_websarva_wings_android_todoapps_AddToDoActivity_getAlias(JNIEnv *env, jobject thiz) {
+    // TODO: implement getAlias()
+
+    return env->NewStringUTF(uid_g.c_str());
 }

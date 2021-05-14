@@ -50,7 +50,7 @@ public class GetContentsClass extends ToDoActivity{
     }
 
     void getContents(List<Map<String,String>>ContentsList, ListView contentListView){
-        db.collection("users").document(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+        db.collection(/*"users"*/"admin").document(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
                 .collection("contents")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -70,7 +70,7 @@ public class GetContentsClass extends ToDoActivity{
     }
 
     void deleteContent(String title){
-        db.collection("users").document(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+        db.collection(/*"users"*/"admin").document(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
                 .collection("contents").document(title)
                 .delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

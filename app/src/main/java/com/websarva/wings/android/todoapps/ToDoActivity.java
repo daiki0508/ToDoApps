@@ -26,6 +26,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -33,6 +38,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import static com.websarva.wings.android.todoapps.MainActivity.mAuth;
@@ -44,6 +54,12 @@ public class ToDoActivity extends AppCompatActivity {
     private List<Map<String,String>> ContentsList;
     protected static String title_str = "";
     protected static String note_str = "";
+    private String result;
+    private byte[] iv_decode = null;
+    private byte[] en2 = null;
+    private SecretKeySpec key;
+    private byte[] bytes =null;
+    private byte[] keys = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +67,7 @@ public class ToDoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_to_do);
 
         db = FirebaseFirestore.getInstance();
+        saveUID(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
 
         ListView contentListView = findViewById(R.id.todoList);
         registerForContextMenu(contentListView);
@@ -127,12 +144,44 @@ public class ToDoActivity extends AppCompatActivity {
 
     void updateUI(List<Map<String,String>>ContentsList,Map<String, Object> get_toDoLists){
         Map<String,String> content = new HashMap<>();
+        decrypt(Objects.requireNonNull(get_toDoLists.get("note")).toString(), Objects.requireNonNull(get_toDoLists.get("iv")).toString(), Objects.requireNonNull(get_toDoLists.get("key")).toString());
 
         content.put("title", Objects.requireNonNull(get_toDoLists.get("title")).toString());
-        content.put("note", Objects.requireNonNull(get_toDoLists.get("note")).toString());
+       // content.put("note", Objects.requireNonNull(get_toDoLists.get("note")).toString());
+        content.put("note",result);
         content.put("date", Objects.requireNonNull(get_toDoLists.get("date")).toString());
 
         ContentsList.add(content);
+    }
+
+    private void decrypt(String note, String iv, String keys_d){
+        bytes = new byte[256 / 8];
+        keys = Base64.decode(keys_d,Base64.DEFAULT);
+
+        for (int i = 0; i < new String(keys).length(); i++){
+            if (i >= bytes.length){
+                break;
+            }
+            bytes[i] = keys[i];
+        }
+        key = new SecretKeySpec(bytes,"AES");
+
+        iv_decode = Base64.decode(iv,Base64.DEFAULT);
+        Log.d("encrypt_iv",iv);
+
+        try {
+            IvParameterSpec ips = new IvParameterSpec(iv_decode);
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            cipher.init(Cipher.DECRYPT_MODE,key,ips);
+            en2 = cipher.doFinal(Base64.decode(note.getBytes(StandardCharsets.UTF_8),Base64.DEFAULT));
+
+            result = new String(en2,StandardCharsets.UTF_8);
+            Log.d("encrypt_re",result);
+            Log.d("encrypt_alias",keys_d);
+            Log.d("encrypt_note",note);
+        }catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidAlgorithmParameterException | InvalidKeyException | BadPaddingException | IllegalBlockSizeException e){
+            e.printStackTrace();
+        }
     }
 
     void afterUpdateUI(Context context, ListView contentListView,List<Map<String,String>> ContentsList){
@@ -186,6 +235,11 @@ public class ToDoActivity extends AppCompatActivity {
         }
 
         return super.onContextItemSelected(item);
+    }
+
+    private native void saveUID(String uid);
+    static {
+        System.loadLibrary("main");
     }
 
     @Override
