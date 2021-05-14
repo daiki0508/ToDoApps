@@ -120,7 +120,6 @@ public class AddToDoActivity extends AppCompatActivity {
         SecretKeySpec key;
 
         keys = getAlias().getBytes(StandardCharsets.UTF_8);
-        //keys = random.getBytes(StandardCharsets.UTF_8);
 
         for (int i = 0; i < getAlias().length(); i++){
             if (i >= bytes.length){

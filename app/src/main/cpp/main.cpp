@@ -1,8 +1,6 @@
 #include <jni.h>
 #include <string>
 #include <cstring>
-#include <iostream>
-#include <random>
 using namespace std;
 //
 // Created by oocha on 2021/05/12.
@@ -47,6 +45,14 @@ Java_com_websarva_wings_android_todoapps_ToDoActivity_saveUID(JNIEnv *env, jobje
 extern "C"
 JNIEXPORT jstring JNICALL
 Java_com_websarva_wings_android_todoapps_AddToDoActivity_getAlias(JNIEnv *env, jobject thiz) {
+    // TODO: implement getAlias()
+
+    return env->NewStringUTF(uid_g.c_str());
+}
+
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_websarva_wings_android_todoapps_DetailContentActivity_getAlias(JNIEnv *env, jobject thiz) {
     // TODO: implement getAlias()
 
     return env->NewStringUTF(uid_g.c_str());
