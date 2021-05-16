@@ -14,14 +14,11 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
+
 import java.util.Map;
 import java.util.Objects;
 
-import static com.websarva.wings.android.todoapps.MainActivity.mAuth;
 import static com.websarva.wings.android.todoapps.MainActivity.mGoogleSignInClient;
 
 public class UnsubscribeActivity extends AppCompatActivity {

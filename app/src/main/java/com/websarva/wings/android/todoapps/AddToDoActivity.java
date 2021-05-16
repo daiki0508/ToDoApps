@@ -7,20 +7,17 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import android.util.Base64;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;

@@ -27,8 +27,6 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import static com.websarva.wings.android.todoapps.MainActivity.mAuth;
-
 public class MailAndPassRegistClass extends MailAndPassActivity{
     private final MailAndPassActivity mailAndPassActivity;
     private final static String TAG = "MailAndPassActivity";

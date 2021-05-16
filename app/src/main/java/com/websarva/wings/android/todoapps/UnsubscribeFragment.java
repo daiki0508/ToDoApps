@@ -7,9 +7,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
 
-import static com.websarva.wings.android.todoapps.AddToDoActivity.note_str;
-import static com.websarva.wings.android.todoapps.AddToDoActivity.title_str;
-
 public class UnsubscribeFragment extends DialogFragment {
     private final UnsubscribeActivity unsubscribeActivity;
 
