@@ -128,6 +128,7 @@ public class AddToDoActivity extends AppCompatActivity {
             bytes[i] = keys[i];
         }
         key = new SecretKeySpec(bytes,"AES");
+        Arrays.fill(bytes, (byte) 0);
 
         byte[] de = null;
         byte[] iv;
@@ -140,11 +141,9 @@ public class AddToDoActivity extends AppCompatActivity {
             enc_data[0] = Base64.encodeToString(de,Base64.DEFAULT);
             enc_data[1] = Base64.encodeToString(iv,Base64.DEFAULT);
             enc_data[2] = Base64.encodeToString(keys,Base64.DEFAULT);
-            Log.d("decrypt_de",enc_data[0]);
-            Log.d("decrypt_iv",enc_data[1]);
-            Log.d("decrypt_key",enc_data[2]);
-            Log.d("test",getAlias());
-           // Log.d("decrypt_alias",getAlias());
+            Arrays.fill(keys, (byte) 0);
+            Arrays.fill(de, (byte) 0);
+            Arrays.fill(iv, (byte) 0);
         }catch (NoSuchAlgorithmException | NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException | InvalidKeyException e){
             e.printStackTrace();
         }

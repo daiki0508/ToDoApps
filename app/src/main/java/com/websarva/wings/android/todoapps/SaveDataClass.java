@@ -70,4 +70,22 @@ public class SaveDataClass{
                     }
                 });
     }
+
+    void deleteContent(String title){
+        db.collection(/*"users"*/"admin").document(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+                .collection("contents").document(title)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG,"deleteContent:success");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG,"deleteContent:failure",e);
+                    }
+                });
+    }
 }

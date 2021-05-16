@@ -176,12 +176,14 @@ public class ToDoActivity extends AppCompatActivity {
             en2 = cipher.doFinal(Base64.decode(note.getBytes(StandardCharsets.UTF_8),Base64.DEFAULT));
 
             result = new String(en2,StandardCharsets.UTF_8);
-            Log.d("encrypt_re",result);
-            Log.d("encrypt_alias",keys_d);
-            Log.d("encrypt_note",note);
         }catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidAlgorithmParameterException | InvalidKeyException | BadPaddingException | IllegalBlockSizeException e){
             e.printStackTrace();
         }
+
+        Arrays.fill(bytes, (byte) 0);
+        Arrays.fill(keys,(byte) 0);
+        Arrays.fill(iv_decode,(byte) 0);
+        Arrays.fill(en2,(byte) 0);
     }
 
     void afterUpdateUI(Context context, ListView contentListView,List<Map<String,String>> ContentsList){
