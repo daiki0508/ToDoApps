@@ -1,7 +1,6 @@
 #include <jni.h>
 #include <string>
 #include <cstring>
-using namespace std;
 //
 // Created by oocha on 2021/05/12.
 //

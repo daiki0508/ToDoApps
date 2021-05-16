@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +20,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -41,6 +41,8 @@ public class DetailContentActivity extends AppCompatActivity {
     private EditText note_edit;
     protected static String title_str;
     protected static String note_str;
+    private String title_origin = "";
+    private String note_origin = "";
     private SaveDataClass sdc;
     protected static Map<String, Object> todo_list;
     private String[] enc_data;
@@ -66,7 +68,11 @@ public class DetailContentActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         title_edit.setText(intent.getStringExtra("title"));
+        title_origin = intent.getStringExtra("title");
+
         note_edit.setText(intent.getStringExtra("note"));
+        note_origin = intent.getStringExtra("note");
+
         date_textview.setText(intent.getStringExtra("date"));
 
         sdc = new SaveDataClass(this);
@@ -94,7 +100,8 @@ public class DetailContentActivity extends AppCompatActivity {
         int note_len = note.length();
         String toast_str = "";
 
-        if (title_len > 0 && note_len > 0 && title_len <= 30 && note_len <= 100){
+        if (title_len > 0 && note_len > 0 && title_len <= 30 && note_len <= 100 && !title.equals(title_origin) && !note.equals(note_origin)){
+            sdc.deleteContent(title_origin);
             Date date = new Date();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault());
             encrypt(note);
@@ -115,8 +122,11 @@ public class DetailContentActivity extends AppCompatActivity {
                 toast_str = "タイトルの最大入力可能文字数は30文字です";
             }else if (note_len == 0){
                 toast_str = "メモが入力されていません";
-            }else {
-                toast_str = "メモの最大入力可能文字数葉100文字です";
+            }else if (note_len > 100){
+                toast_str = "メモの最大入力可能文字数は100文字です";
+            }
+            else {
+                toast_str = "内容が更新されてません";
             }
             Toast.makeText(DetailContentActivity.this,toast_str,Toast.LENGTH_SHORT).show();
         }
@@ -136,6 +146,7 @@ public class DetailContentActivity extends AppCompatActivity {
             bytes[i] = keys[i];
         }
         key = new SecretKeySpec(bytes,"AES");
+        Arrays.fill(bytes, (byte) 0);
 
         byte[] de = null;
         byte[] iv;
@@ -148,11 +159,10 @@ public class DetailContentActivity extends AppCompatActivity {
             enc_data[0] = Base64.encodeToString(de,Base64.DEFAULT);
             enc_data[1] = Base64.encodeToString(iv,Base64.DEFAULT);
             enc_data[2] = Base64.encodeToString(keys,Base64.DEFAULT);
-            Log.d("decrypt_de",enc_data[0]);
-            Log.d("decrypt_iv",enc_data[1]);
-            Log.d("decrypt_key",enc_data[2]);
-            Log.d("test",getAlias());
-            // Log.d("decrypt_alias",getAlias());
+
+            Arrays.fill(keys, (byte) 0);
+            Arrays.fill(iv, (byte) 0);
+            Arrays.fill(de, (byte) 0);
         }catch (NoSuchAlgorithmException | NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException | InvalidKeyException e){
             e.printStackTrace();
         }

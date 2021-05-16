@@ -13,8 +13,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
 
-import static com.websarva.wings.android.todoapps.MainActivity.mAuth;
-
 public class MailAndPassSignInClass extends MailAndPassActivity{
     private final MailAndPassActivity mailAndPassActivity;
     private final static String TAG = "MailAndPassActivity";

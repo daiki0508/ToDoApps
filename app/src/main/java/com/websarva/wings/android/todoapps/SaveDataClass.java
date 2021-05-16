@@ -30,7 +30,7 @@ public class SaveDataClass{
     }
 
     void SaveData(Map<String,Object> todo_lists){
-        db.collection(/*"users"*/"admin").document(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+        db.collection("users").document(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
                 .collection("contents").document(Objects.requireNonNull(Objects.requireNonNull(todo_lists.get("title")).toString()))
                 .set(todo_lists, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -51,7 +51,7 @@ public class SaveDataClass{
     }
 
     void update(Map<String,Object> todo_lists){
-        db.collection(/*"users"*/"admin").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
+        db.collection("users").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
                 .collection("contents").document(Objects.requireNonNull(Objects.requireNonNull(todo_lists.get("title")).toString()))
                 .set(todo_lists)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -67,6 +67,24 @@ public class SaveDataClass{
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG,"saveData:failure");
                         Toast.makeText(detailContentActivity,"更新に失敗しました",Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    void deleteContent(String title){
+        db.collection("users").document(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+                .collection("contents").document(title)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG,"deleteContent:success");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG,"deleteContent:failure",e);
                     }
                 });
     }

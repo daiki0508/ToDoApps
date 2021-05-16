@@ -18,8 +18,6 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import static com.websarva.wings.android.todoapps.MainActivity.mAuth;
-
 public class MailAndPassActivity extends AppCompatActivity {
     private boolean flag;
     private Button execute_b;

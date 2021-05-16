@@ -1,13 +1,9 @@
 package com.websarva.wings.android.todoapps;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
-import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.security.keystore.KeyProperties;
 import android.util.Base64;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -21,7 +17,6 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -30,7 +25,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -45,7 +39,6 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import static com.websarva.wings.android.todoapps.MainActivity.mAuth;
 import static com.websarva.wings.android.todoapps.MainActivity.mGoogleSignInClient;
 
 public class ToDoActivity extends AppCompatActivity {
@@ -147,7 +140,6 @@ public class ToDoActivity extends AppCompatActivity {
         decrypt(Objects.requireNonNull(get_toDoLists.get("note")).toString(), Objects.requireNonNull(get_toDoLists.get("iv")).toString(), Objects.requireNonNull(get_toDoLists.get("key")).toString());
 
         content.put("title", Objects.requireNonNull(get_toDoLists.get("title")).toString());
-       // content.put("note", Objects.requireNonNull(get_toDoLists.get("note")).toString());
         content.put("note",result);
         content.put("date", Objects.requireNonNull(get_toDoLists.get("date")).toString());
 
@@ -176,12 +168,14 @@ public class ToDoActivity extends AppCompatActivity {
             en2 = cipher.doFinal(Base64.decode(note.getBytes(StandardCharsets.UTF_8),Base64.DEFAULT));
 
             result = new String(en2,StandardCharsets.UTF_8);
-            Log.d("encrypt_re",result);
-            Log.d("encrypt_alias",keys_d);
-            Log.d("encrypt_note",note);
         }catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidAlgorithmParameterException | InvalidKeyException | BadPaddingException | IllegalBlockSizeException e){
             e.printStackTrace();
         }
+
+        Arrays.fill(bytes, (byte) 0);
+        Arrays.fill(keys,(byte) 0);
+        Arrays.fill(iv_decode,(byte) 0);
+        Arrays.fill(en2,(byte) 0);
     }
 
     void afterUpdateUI(Context context, ListView contentListView,List<Map<String,String>> ContentsList){
