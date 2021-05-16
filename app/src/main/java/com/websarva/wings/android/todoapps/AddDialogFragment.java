@@ -9,7 +9,6 @@ import androidx.fragment.app.DialogFragment;
 
 import static com.websarva.wings.android.todoapps.AddToDoActivity.note_str;
 import static com.websarva.wings.android.todoapps.AddToDoActivity.title_str;
-import static com.websarva.wings.android.todoapps.AddToDoActivity.todo_list;
 
 public class AddDialogFragment extends DialogFragment {
     private final AddToDoActivity addToDoActivity;
