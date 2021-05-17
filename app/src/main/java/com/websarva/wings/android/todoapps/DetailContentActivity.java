@@ -100,7 +100,7 @@ public class DetailContentActivity extends AppCompatActivity {
         int note_len = note.length();
         String toast_str = "";
 
-        if (title_len > 0 && note_len > 0 && title_len <= 30 && note_len <= 100 && !title.equals(title_origin) && !note.equals(note_origin)){
+        if ((title_len > 0 && note_len > 0 && title_len <= 30 && note_len <= 100) && (!title.equals(title_origin) || !note.equals(note_origin))){
             sdc.deleteContent(title_origin);
             Date date = new Date();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault());
